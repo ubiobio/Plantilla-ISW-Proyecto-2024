@@ -7,6 +7,18 @@ const domainEmailValidator = (value, helper) => {
       "El correo electrónico debe ser del dominio @alumnos.ubiobio.cl",
     );
   }
+
+  if (!value.endsWith("@ubiobio.cl")) {
+    return helper.message(
+      "El correo electrónico debe ser del dominio @ubiobio.cl",
+    );
+  }
+
+  if (!value.endsWith("@gmail.cl")) {
+    return helper.message(
+      "El correo electrónico debe ser del dominio @gmail.cl",
+    );
+  }
   return value;
 };
 
@@ -37,15 +49,15 @@ export const userQueryValidation = Joi.object({
   rut: Joi.string()
     .min(9)
     .max(12)
-    .pattern(/^\d{1,2}\.?\d{3}\.?\d{3}-[\dkK]$/)
+    .pattern(/^\d{1,2}(\.\d{3}){2}-[\dkK]$|^\d{7,8}-[\dkK]$/)
     .optional()
     .messages({
-      "string.empty": "El rut no puede estar vacío.",
-      "any.required": "El rut es obligatorio.",
-      "string.base": "El rut debe ser de tipo string.",
-      "string.min": "El rut debe tener como mínimo 9 caracteres.",
-      "string.max": "El rut debe tener como máximo 12 caracteres.",
-      "string.pattern.base": "El rut no tiene un formato válido.",
+      "string.empty": "El Rut no puede estar vacío.",
+      "any.required": "El Rut es obligatorio.",
+      "string.base": "El Rut debe ser de tipo string.",
+      "string.min": "El Rut debe tener como mínimo 9 caracteres.",
+      "string.max": "El Rut debe tener como máximo 12 caracteres.",
+      "string.pattern.base": "El Rut debe ser con el formato 12.345.678-9 o 12345678-9",
     }),
 })
   .or("id", "email", "rut")
@@ -80,16 +92,16 @@ export const userBodyValidation = Joi.object({
     })
     .custom(domainEmailValidator, "Validación dominio email"),
   password: Joi.string()
-    .min(3)
-    .max(30)
+    .min(8)
+    .max(26)
     .pattern(new RegExp("^[a-zA-Z0-9]+$"))
     .optional()
     .messages({
       "string.empty": "La contraseña no puede estar vacía.",
       "any.required": "La contraseña es obligatoria.",
       "string.base": "La contraseña debe ser de tipo string.",
-      "string.min": "La contraseña debe tener como mínimo 3 caracteres.",
-      "string.max": "La contraseña debe tener como máximo 30 caracteres.",
+      "string.min": "La contraseña debe tener como mínimo 8 caracteres.",
+      "string.max": "La contraseña debe tener como máximo 26 caracteres.",
       "string.pattern.base":
         "La contraseña solo puede contener letras y números.",
     }),
@@ -110,15 +122,15 @@ export const userBodyValidation = Joi.object({
   rut: Joi.string()
     .min(9)
     .max(12)
-    .pattern(/^\d{1,2}\.?\d{3}\.?\d{3}-[\dkK]$/)
+    .pattern(/^\d{1,2}(\.\d{3}){2}-[\dkK]$|^\d{7,8}-[\dkK]$/)
     .optional()
     .messages({
-      "string.empty": "El RUT no puede estar vacío.",
-      "any.required": "El RUT es obligatorio.",
-      "string.base": "El RUT debe ser de tipo string.",
-      "string.min": "El RUT debe tener como mínimo 9 caracteres.",
-      "string.max": "El RUT debe tener como máximo 12 caracteres.",
-      "string.pattern.base": "El RUT no tiene un formato válido.",
+      "string.empty": "El Rut no puede estar vacío.",
+      "any.required": "El Rut es obligatorio.",
+      "string.base": "El Rut debe ser de tipo string.",
+      "string.min": "El Rut debe tener como mínimo 9 caracteres.",
+      "string.max": "El Rut debe tener como máximo 12 caracteres.",
+      "string.pattern.base": "El Rut debe ser con el formato 12.345.678-9 o 12345678-9",
     }),
   rol: Joi.string().min(4).max(15).optional().messages({
     "string.base": "El rol debe ser de tipo string.",
