@@ -76,6 +76,7 @@ export async function updateUserService(query, body) {
       email: body.email,
       rol: body.rol,
       password: await encryptPassword(body.newPassword || body.password),
+      updatedAt: new Date()
     });
 
     const userData = await userRepository.findOne({
