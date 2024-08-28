@@ -45,7 +45,7 @@ export async function registerService(user) {
   try {
     const userRepository = AppDataSource.getRepository(User);
 
-    const { nombreCompleto, rut, email, password } = user;
+    const { nombreCompleto, rut, email } = user;
 
     const existingUser = await userRepository.findOne({
       where: {
@@ -59,13 +59,15 @@ export async function registerService(user) {
       nombreCompleto,
       email,
       rut,
-      password: await encryptPassword(password),
+      password: await encryptPassword(user.password),
       rol: "usuario",
     });
 
     await userRepository.save(newUser);
 
-    return [newUser, null];
+    const { password, ...dataUser } = newUser;
+    
+    return [dataUser, null];
   } catch (error) {
     console.error("Error al registrar un usuario", error);
     return [null, "Error interno del servidor"];
