@@ -8,23 +8,29 @@ import { ACCESS_TOKEN_SECRET } from "../config/configEnv.js";
 export async function loginService(user) {
   try {
     const userRepository = AppDataSource.getRepository(User);
-
     const { email, password } = user;
 
-    const userFound = await userRepository.findOne({
-      where: {
-        email: email,
-      },
+    const createErrorMessage = (dataInfo, message) => ({
+      dataInfo,
+      message
     });
 
-    if (!userFound) return [null, "El usuario es incorrecto"];
+    const userFound = await userRepository.findOne({
+      where: { email }
+    });
+
+    if (!userFound) {
+      return [null, createErrorMessage("email", "El correo electrónico es incorrecto")];
+    }
 
     const isMatch = await comparePassword(password, userFound.password);
 
-    if (!isMatch) return [null, "La contraseña es incorrecta"];
+    if (!isMatch) {
+      return [null, createErrorMessage("password", "La contraseña es incorrecta")];
+    }
 
     const payload = {
-      fullname: userFound.nombreCompleto,
+      nombreCompleto: userFound.nombreCompleto,
       email: userFound.email,
       rut: userFound.rut,
       rol: userFound.rol,
@@ -41,19 +47,33 @@ export async function loginService(user) {
   }
 }
 
+
 export async function registerService(user) {
   try {
     const userRepository = AppDataSource.getRepository(User);
 
     const { nombreCompleto, rut, email } = user;
 
-    const existingUser = await userRepository.findOne({
+    const createErrorMessage = (dataInfo, message) => ({
+      dataInfo,
+      message
+    });
+
+    const existingEmailUser = await userRepository.findOne({
       where: {
         email,
       },
     });
+    
+    if (existingEmailUser) return [null, createErrorMessage("email", "Correo electrónico en uso")];
 
-    if (existingUser) return [null, "El usuario ya existe"];
+    const existingRutUser = await userRepository.findOne({
+      where: {
+        rut,
+      },
+    });
+
+    if (existingRutUser) return [null, createErrorMessage("rut", "Rut ya asociado a una cuenta")];
 
     const newUser = userRepository.create({
       nombreCompleto,
@@ -66,7 +86,7 @@ export async function registerService(user) {
     await userRepository.save(newUser);
 
     const { password, ...dataUser } = newUser;
-    
+
     return [dataUser, null];
   } catch (error) {
     console.error("Error al registrar un usuario", error);
