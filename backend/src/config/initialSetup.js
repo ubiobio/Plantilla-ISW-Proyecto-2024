@@ -13,19 +13,37 @@ async function createUsers() {
     await Promise.all([
       userRepository.save(
         userRepository.create({
-          nombreCompleto: "Nombre usuario",
+          nombreCompleto: "Diego Alexis Salazar Jara",
           rut: "21.308.770-3",
-          email: "user@alumnos.ubiobio.cl",
-          password: await encryptPassword("user123"),
+          email: "usuario1.2024@gmail.cl",
+          password: await encryptPassword("user1234"),
           rol: "usuario",
         }),
       ),
       userRepository.save(
         userRepository.create({
-          nombreCompleto: "Nombre administrador",
+          nombreCompleto: "Alexis Diego Salazar Jara",
+          rut: "22.308.770-3",
+          email: "usuario2.2024@gmail.cl",
+          password: await encryptPassword("user1234"),
+          rol: "usuario",
+        })
+      ),
+        userRepository.save(
+          userRepository.create({
+            nombreCompleto: "Didudo Salazar Jara",
+            rut: "25.308.770-3",
+            email: "usuario3.2024@gmail.cl",
+            password: await encryptPassword("user1234"),
+            rol: "usuario",
+          }),
+      ),
+      userRepository.save(
+        userRepository.create({
+          nombreCompleto: "John Michael Doe",
           rut: "20.308.770-3",
-          email: "administrador@alumnos.ubiobio.cl",
-          password: await encryptPassword("admin123"),
+          email: "administrador2024@gmail.cl",
+          password: await encryptPassword("admin1234"),
           rol: "administrador",
         }),
       ),
