@@ -8,18 +8,17 @@ export function handleSuccess(res, statusCode, message, data = {}) {
   });
 }
 
-export function handleErrorClient(res, statusCode, message, details = {}) {
+export function handleErrorClient(res, statusCode, message, details= {}) {
   return res.status(statusCode).json({
     status: "Client error",
     message,
-    details,
+    details
   });
 }
 
-export function handleErrorServer(res, statusCode, message, details = {}) {
+export function handleErrorServer(res, statusCode, message) {
   return res.status(statusCode).json({
     status: "Server error",
     message,
-    details,
   });
 }
