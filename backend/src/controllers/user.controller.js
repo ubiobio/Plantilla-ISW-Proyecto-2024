@@ -29,7 +29,7 @@ export async function getUser(req, res) {
 
     handleSuccess(res, 200, "Usuario encontrado", user);
   } catch (error) {
-    handleErrorServer(res, 500, "Error obteniendo un usuario", error.message);
+    handleErrorServer(res, 500, error.message);
   }
 }
 
@@ -46,7 +46,6 @@ export async function getUsers(req, res) {
     handleErrorServer(
       res,
       500,
-      "Error obteniendo a los usuarios",
       error.message,
     );
   }
@@ -67,7 +66,6 @@ export async function updateUser(req, res) {
       return handleErrorClient(
         res,
         400,
-        "Error de validación",
         queryError.message,
       );
     }
@@ -78,7 +76,6 @@ export async function updateUser(req, res) {
       return handleErrorClient(
         res,
         400,
-        "Error de validación",
         bodyError.message,
       );
 
@@ -88,7 +85,7 @@ export async function updateUser(req, res) {
 
     handleSuccess(res, 200, "Usuario modificado correctamente", user);
   } catch (error) {
-    handleErrorServer(res, 500, "Error modificando un usuario", error.message);
+    handleErrorServer(res, 500, error.message);
   }
 }
 
@@ -106,7 +103,6 @@ export async function deleteUser(req, res) {
       return handleErrorClient(
         res,
         400,
-        "Error de validación",
         queryError.message,
       );
     }
@@ -121,6 +117,6 @@ export async function deleteUser(req, res) {
 
     handleSuccess(res, 200, "Usuario eliminado correctamente", userDelete);
   } catch (error) {
-    handleErrorServer(res, 500, "Error eliminando un usuario", error.message);
+    handleErrorServer(res, 500, error.message);
   }
 }
