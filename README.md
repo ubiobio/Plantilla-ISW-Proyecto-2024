@@ -283,7 +283,7 @@ Este proyecto utiliza el stack **PERN**, que incluye las siguientes tecnologías
 - **Uso en el Proyecto**: Se utiliza para ejecutar el código del Backend y manejar la lógica del servidor.
 - **Enlace**: [Node.js](https://nodejs.org/)
 
-### Otros Recursos y Librerías
+### Otros Recursos
 
 - **Passport.js**: Middleware de autenticación para Node.js.
   - **Enlace**: [Passport.js](http://www.passportjs.org/)
