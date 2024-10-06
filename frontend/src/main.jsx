@@ -1,12 +1,12 @@
-import ReactDOM from 'react-dom/client'
+import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from '@pages/Login';
 import Home from '@pages/Home';
 import Users from '@pages/Users';
-import EditUser from '@pages/EditUser';
 import Register from '@pages/Register';
 import Error404 from '@pages/Error404';
 import Root from '@pages/Root';
+import ProtectedRoute from '@components/ProtectedRoute';
 import '@styles/styles.css';
 
 const router = createBrowserRouter([
@@ -21,12 +21,12 @@ const router = createBrowserRouter([
       },
       {
         path: '/users',
-        element: <Users/>
-      },
-      {
-        path: '/edit-user/:rut',
-        element: <EditUser/>
-      }
+        element: (
+        <ProtectedRoute allowedRoles={['administrador']}>
+          <Users />
+        </ProtectedRoute>
+        ),
+    }
     ]
   },
   {
