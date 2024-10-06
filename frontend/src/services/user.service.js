@@ -1,37 +1,32 @@
 import axios from './root.service.js';
 import { formatUserData } from '@helpers/formatData.js';
-import { deleteDataAlert } from '@helpers/sweetAlert.js';
 
 export async function getUsers() {
     try {
-        const config = {
-            headers: {
-                'Cache-Control': 'no-cache'
-            }
-        };
-        const { data } = await axios.get('/user/', config);
+        const { data } = await axios.get('/user/');
         const formattedData = data.data.map(formatUserData);
         return formattedData;
     } catch (error) {
-        throw error.response?.data || error.message;
+        return error.response.data;
     }
 }
 
 export async function updateUser(data, rut) {
     try {
-        const response = await axios.put(`/user/?rut=${rut}`, data);
-        return response.data;
+        const response = await axios.patch(`/user/detail/?rut=${rut}`, data);
+        console.log(response);
+        return response.data.data;
     } catch (error) {
-        throw error.response?.data || error.message;
+        console.log(error);
+        return error.response.data;
     }
 }
 
 export async function deleteUser(rut) {
     try {
         const response = await axios.delete(`/user/detail/?rut=${rut}`);
-        deleteDataAlert(response.status, response.data.message);
         return response.data;
     } catch (error) {
-        throw error.response?.data || error.message;
+        return error.response.data;
     }
 }

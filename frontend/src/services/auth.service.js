@@ -1,9 +1,7 @@
 import axios from './root.service.js';
 import cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
-import { convertirMinusculas } from '@helpers/lowerCaseData.js';
-import { sweetAlert } from '@helpers/sweetAlert.js';
-import { format } from 'rut.js';
+import { convertirMinusculas } from '@helpers/formatData.js';
 
 export async function login(dataUser) {
     try {
@@ -11,20 +9,13 @@ export async function login(dataUser) {
             email: dataUser.email, 
             password: dataUser.password
         });
-
         const { status, data } = response;
-
         if (status === 200) {
             const { nombreCompleto, email, rut, rol } = jwtDecode(data.data.token);
-
             const userData = { nombreCompleto, email, rut, rol };
-
             sessionStorage.setItem('usuario', JSON.stringify(userData));
-
             axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
-
             cookies.set('jwt-auth', data.data.token, {path:'/'});
-
             return response.data
         }
     } catch (error) {
@@ -39,12 +30,9 @@ export async function register(data) {
         const response = await axios.post('/auth/register', {
             nombreCompleto,
             email,
-            rut: format(rut),
+            rut,
             password
         });
-
-        sweetAlert(response.status, response.data.message);
-        
         return response.data;
     } catch (error) {
         return error.response.data;
