@@ -1,0 +1,35 @@
+.error_404{
+	height: 100vh;
+	width: 100%;
+	background: linear-gradient(90deg, #003366, #001a33); /*Color del fondo de la pagina de error (gradiente)*/
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	.card{
+		background-color: #eef7ff;
+		padding: 6.5vh;
+		border-radius: 24px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		h1{
+			margin: 0;
+			font-size: 120px;
+			font-weight: bold;
+			color: #003366;
+		}
+		h3{
+			margin: 0;
+			font-size: 24px;
+			font-weight: lighter;
+			color: #003366;
+		}
+		h4{
+			margin: 0;
+			padding-top: 2vh;
+			font-size: 14px;
+			font-weight: lighter;
+			color: #003366;
+		}
+	}
+}

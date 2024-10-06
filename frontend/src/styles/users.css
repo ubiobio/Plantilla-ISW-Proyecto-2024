@@ -1,0 +1,91 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+}
+
+.table-container {
+    width: 90%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.top-table {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.title-table {
+    color: #003366;
+    margin-left: 70px;
+}
+
+.filter-actions {
+    display: flex;
+    gap: 10px;
+    button {
+        background: rgba(255, 255, 255, 0.87);
+        border: #fff;
+        cursor: pointer;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        
+    }
+}
+
+.delete-user-button {
+    margin-right: 70px;
+}
+
+@media (max-width: 767px) {
+    .title-table {
+        margin: 0;
+    }
+    .top-table {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .delete-user-button {
+        margin-right: 0;
+    }
+
+    .filter-actions {
+        margin-bottom: 10px;
+    }
+    .table-container {
+        margin: 0;
+        width: 352px;
+        height: 500px;
+    }
+    .popup {
+        width: 350px;
+        height: 600px;
+    }
+    .popup .form {
+        padding: 20px;
+    }
+
+    .popup .close {
+        margin-right: 0;
+    }
+
+    .popup .options-class {
+        width: 10px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .title-table {
+        margin-left: 35px;
+    }
+
+    .delete-user-button {
+        margin-right: 35px;
+    }
+}

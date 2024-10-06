@@ -1,0 +1,17 @@
+.search-input-table {
+    padding: 8px 16px;
+    border-radius: 4px;
+    padding-left: 40px;
+    background-image: url('../assets/SearchIcon.svg');
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    border: 1px solid #003366;
+    font-size: 16px;
+    width: 200px;
+    background-color: rgba(255, 255, 255, 0.87);
+    color: black;
+}
+.search-input-table::placeholder {
+    color: black;
+    font-family: "Montserrat", sans-serif;
+}
