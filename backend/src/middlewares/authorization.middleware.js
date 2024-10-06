@@ -14,28 +14,26 @@ try {
     if (!userFound) {
     return handleErrorClient(
         res,
-        401,
+        404,
         "Usuario no encontrado en la base de datos",
     );
     }
 
     const rolUser = userFound.rol;
 
-    if (rolUser === "administrador") {
-    next();
-    return;
+    if (rolUser !== "administrador") {
+        return handleErrorClient(
+            res,
+            403,
+            "Error al acceder al recurso",
+            "Se requiere un rol de administrador para realizar esta acción."
+        );
     }
-
-    return handleErrorClient(
-    res,
-    401,
-    "Se requiere un rol de administrador para realizar esta acción",
-    );
+    next();
 } catch (error) {
     handleErrorServer(
     res,
     500,
-    "Error en authorization.middleware -> isAdmin()",
     error.message,
     );
 }
