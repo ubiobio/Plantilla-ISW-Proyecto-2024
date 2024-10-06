@@ -66,6 +66,7 @@ export async function updateUser(req, res) {
       return handleErrorClient(
         res,
         400,
+        "Error de validación en la consulta",
         queryError.message,
       );
     }
@@ -76,12 +77,13 @@ export async function updateUser(req, res) {
       return handleErrorClient(
         res,
         400,
+        "Error de validación en los datos enviados",
         bodyError.message,
       );
 
     const [user, userError] = await updateUserService({ rut, id, email }, body);
 
-    if (userError) return handleErrorClient(res, 400, userError);
+    if (userError) return handleErrorClient(res, 400, "Error modificando al usuario", userError);
 
     handleSuccess(res, 200, "Usuario modificado correctamente", user);
   } catch (error) {
@@ -103,6 +105,7 @@ export async function deleteUser(req, res) {
       return handleErrorClient(
         res,
         400,
+        "Error de validación en la consulta",
         queryError.message,
       );
     }
@@ -113,7 +116,7 @@ export async function deleteUser(req, res) {
       email,
     });
 
-    if (errorUserDelete) return handleErrorClient(res, 404, errorUserDelete);
+    if (errorUserDelete) return handleErrorClient(res, 404, "Error eliminado al usuario", errorUserDelete);
 
     handleSuccess(res, 200, "Usuario eliminado correctamente", userDelete);
   } catch (error) {

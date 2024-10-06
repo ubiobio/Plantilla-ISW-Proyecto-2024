@@ -17,11 +17,11 @@ export async function login(req, res) {
     const { error } = authValidation.validate(body);
 
     if (error) {
-      return handleErrorClient(res, 400, error.message);
+      return handleErrorClient(res, 400, "Error de validación", error.message);
     }
     const [accessToken, errorToken] = await loginService(body);
 
-    if (errorToken) return handleErrorClient(res, 400, errorToken, {});
+    if (errorToken) return handleErrorClient(res, 400, "Error iniciando sesión", errorToken);
 
     res.cookie("jwt", accessToken, {
       httpOnly: true,
@@ -41,11 +41,11 @@ export async function register(req, res) {
     const { error } = registerValidation.validate(body);
 
     if (error)
-      return handleErrorClient(res, 400, error.message);
+      return handleErrorClient(res, 400, "Error de validación", error.message);
 
     const [newUser, errorNewUser] = await registerService(body);
 
-    if (errorNewUser) return handleErrorClient(res, 400, errorNewUser);
+    if (errorNewUser) return handleErrorClient(res, 400, "Error registrando al usuario", errorNewUser);
 
     handleSuccess(res, 201, "Usuario registrado con éxito", newUser);
   } catch (error) {
