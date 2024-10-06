@@ -61,27 +61,36 @@ export async function updateUserService(query, body) {
       return [null, "Ya existe un usuario con el mismo rut o email"];
     }
 
-    const matchPassword = await comparePassword(
-      body.password,
-      userFound.password,
-    );
+    if (body.password) {
+      const matchPassword = await comparePassword(
+        body.password,
+        userFound.password,
+      );
 
-    if (!matchPassword) return [null, "La contraseña no coincide"];
+      if (!matchPassword) return [null, "La contraseña no coincide"];
+    }
 
-    const updatedParam = id ? { id } : rut ? { rut } : { email };
-
-    await userRepository.update(updatedParam, {
+    const dataUserUpdate = {
       nombreCompleto: body.nombreCompleto,
       rut: body.rut,
       email: body.email,
       rol: body.rol,
-      password: await encryptPassword(body.newPassword || body.password),
-      updatedAt: new Date()
-    });
+      updatedAt: new Date(),
+    };
+
+    if (body.newPassword && body.newPassword.trim() !== "") {
+      dataUserUpdate.password = await encryptPassword(body.newPassword);
+    }
+
+    await userRepository.update({ id: userFound.id }, dataUserUpdate);
 
     const userData = await userRepository.findOne({
-      where: [updatedParam],
+      where: { id: userFound.id },
     });
+
+    if (!userData) {
+      return [null, "Usuario no encontrado después de actualizar"];
+    }
 
     const { password, ...userUpdated } = userData;
 
