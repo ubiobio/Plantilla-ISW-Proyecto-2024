@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { register } from '@services/auth.service.js';
 import Form from "@components/Form";
 import useRegister from '@hooks/auth/useRegister.jsx';
+import { showErrorAlert, showSuccessAlert } from '@helpers/sweetAlert.js';
+import '@styles/form.css';
 
 const Register = () => {
 	const navigate = useNavigate();
@@ -12,21 +14,24 @@ const Register = () => {
         handleInputChange
     } = useRegister();
 
-
-    const registerSubmit = async (data) => {
-        try {
-            const response = await register(data);
-            if (response.status === 'Success') {
-                setTimeout(() => {
-                    navigate('/auth');
-                }, 3000)
-            } else if (response.status === 'Client error') {
-                errorData(response.message);
-            }
-        } catch (error) {
-            console.log(error)
+const registerSubmit = async (data) => {
+    try {
+        const response = await register(data);
+        if (response.status === 'Success') {
+            showSuccessAlert('¡Registrado!','Usuario registrado exitosamente.');
+            setTimeout(() => {
+                navigate('/auth');
+            }, 3000)
+        } else if (response.status === 'Client error') {
+            errorData(response.details);
         }
+    } catch (error) {
+        console.error("Error al registrar un usuario: ", error);
+        showErrorAlert('Cancelado', 'Ocurrió un error al registrarse.');
     }
+}
+
+const patternRut = new RegExp(/^(?:(?:[1-9]\d{0}|[1-2]\d{1})(\.\d{3}){2}|[1-9]\d{6}|[1-2]\d{7}|29\.999\.999|29999999)-[\dkK]$/)
 
 	return (
 		<main className="container">
@@ -37,21 +42,23 @@ const Register = () => {
 						label: "Nombre completo",
 						name: "nombreCompleto",
 						placeholder: "Diego Alexis Salazar Jara",
+                        fieldType: 'input',
 						type: "text",
 						required: true,
-						minLength: 3,
+						minLength: 15,
 						maxLength: 50,
-                        pattern: /^[a-zA-Z\s]+$/,
-						patternMessage: "Debe contener solo letras de la a-z o A-Z",
+                        pattern: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/,
+						patternMessage: "Debe contener solo letras y espacios",
 					},
                     {
                         label: "Correo electrónico",
                         name: "email",
                         placeholder: "example@gmail.cl",
+                        fieldType: 'input',
                         type: "email",
                         required: true,
                         minLength: 15,
-                        maxLength: 30,
+                        maxLength: 35,
                         errorMessageData: errorEmail,
                         validate: {
                             emailDomain: (value) => value.endsWith('@gmail.cl') || 'El correo debe terminar en @gmail.cl'
@@ -62,11 +69,12 @@ const Register = () => {
 						label: "Rut",
                         name: "rut",
                         placeholder: "23.770.330-1",
+                        fieldType: 'input',
                         type: "text",
 						minLength: 9,
 						maxLength: 12,
-						pattern: /^\d{1,2}(\.\d{3}){2}-[\dkK]$|^\d{7,8}-[\dkK]$/,
-						patternMessage: "Debe ser 12.345.678-9 o 12345678-9",
+						pattern: patternRut,
+						patternMessage: "Debe ser xx.xxx.xxx-x o xxxxxxxx-x",
 						required: true,
                         errorMessageData: errorRut,
                         onChange: (e) => handleInputChange('rut', e.target.value)
@@ -75,6 +83,7 @@ const Register = () => {
                         label: "Contraseña",
                         name: "password",
                         placeholder: "**********",
+                        fieldType: 'input',
                         type: "password",
                         required: true,
                         minLength: 8,

@@ -1,3 +1,5 @@
+import '@styles/error404.css';
+
 const Error404 = () => {
     return (
       <main className="error_404">
@@ -10,4 +12,4 @@ const Error404 = () => {
     );
   };
   
-  export default Error404;
+export default Error404;

@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { login } from '@services/auth.service.js';
 import Form from '@components/Form';
 import useLogin from '@hooks/auth/useLogin.jsx';
+import '@styles/form.css';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ const Login = () => {
             if (response.status === 'Success') {
                 navigate('/home');
             } else if (response.status === 'Client error') {
-                errorData(response.message);
+                errorData(response.details);
             }
         } catch (error) {
             console.log(error);
@@ -34,6 +35,7 @@ const Login = () => {
                         label: "Correo electrónico",
                         name: "email",
                         placeholder: "example@gmail.cl",
+                        fieldType: 'input',
                         type: "email",
                         required: true,
                         minLength: 15,
@@ -42,12 +44,13 @@ const Login = () => {
                         validate: {
                             emailDomain: (value) => value.endsWith('@gmail.cl') || 'El correo debe terminar en @gmail.cl'
                         },
-                        onChange: (e) => handleInputChange('email', e.target.value)
+                        onChange: (e) => handleInputChange('email', e.target.value),
                     },
                     {
                         label: "Contraseña",
                         name: "password",
                         placeholder: "**********",
+                        fieldType: 'input',
                         type: "password",
                         required: true,
                         minLength: 8,
