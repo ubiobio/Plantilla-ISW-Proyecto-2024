@@ -102,10 +102,10 @@ export const userBodyValidation = Joi.object({
   newPassword: Joi.string()
     .min(8)
     .max(26)
+    .allow("")
     .pattern(new RegExp("^[a-zA-Z0-9]+$"))
     .optional()
     .messages({
-      "string.empty": "La nueva contraseña no puede estar vacía.",
       "any.required": "La nueva contraseña es obligatoria.",
       "string.base": "La nueva contraseña debe ser de tipo string.",
       "string.min": "La nueva contraseña debe tener como mínimo 8 caracteres.",
