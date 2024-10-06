@@ -4,6 +4,23 @@ import { getUsers } from '@services/user.service.js';
 const useUsers = () => {
     const [users, setUsers] = useState([]);
 
+    const fetchUsers = async () => {
+        try {
+            const response = await getUsers();
+            const formattedData = response.map(user => ({
+                nombreCompleto: user.nombreCompleto,
+                rut: user.rut,
+                email: user.email,
+                rol: user.rol,
+                createdAt: user.createdAt
+            }));
+            dataLogged(formattedData);
+            setUsers(formattedData);
+        } catch (error) {
+            console.error("Error: ", error);
+        }
+    };
+
     useEffect(() => {
         fetchUsers();
     }, []);
@@ -20,25 +37,9 @@ const useUsers = () => {
         } catch (error) {
             console.error("Error: ", error)
         }
-    }
+    };
 
-    const fetchUsers = async () => {
-    try {
-        const response = await getUsers();
-        const formattedData = response.map(user => ({
-            nombreCompleto: user.nombreCompleto,
-            rut: user.rut,
-            email: user.email,
-            rol: user.rol,
-            createdAt: user.createdAt
-        }));
-        dataLogged(formattedData);
-        setUsers(formattedData);
-    } catch (error) {
-        console.error("Error: ", error);
-    }
-}
-    return users;
+    return { users, fetchUsers, setUsers };
 };
 
 export default useUsers;
