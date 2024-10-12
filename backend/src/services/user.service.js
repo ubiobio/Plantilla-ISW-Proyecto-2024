@@ -7,6 +7,8 @@ export async function getUserService(query) {
   try {
     const { rut, id, email } = query;
 
+    if (!id && !rut && !email) return [null, "Debe proporcionar id, rut o email válidos"];
+
     const userRepository = AppDataSource.getRepository(User);
 
     const userFound = await userRepository.findOne({
